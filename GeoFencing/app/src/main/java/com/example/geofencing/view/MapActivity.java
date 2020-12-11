@@ -6,8 +6,8 @@ import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
+import android.widget.Button;
+
 
 import com.example.geofencing.R;
 import com.example.geofencing.view_model.FitHandler;
@@ -15,6 +15,7 @@ import com.example.geofencing.view_model.FitHandler;
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
@@ -29,6 +30,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
     private MapController mapController;
+    private Button centerMapBtn;
 
     private FitHandler fitHandler;
 
@@ -41,9 +43,12 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         setContentView(R.layout.activity_map);
 
         this.mapView = findViewById(R.id.map_view);
+        this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
+        this.mapView.setMultiTouchControls(true);
         this.mapView.setTileSource(TileSourceFactory.MAPNIK);
 
-        requestPermissions(new String[] {
+
+        requestPermissions(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION
@@ -56,6 +61,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.mapController = new MapController(this.mapView);
         this.mapController.zoomTo(19);
         this.mapController.setCenter(this.locationOverlay.getMyLocation());
+
     }
 
     @Override
@@ -84,7 +90,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         }
     }
 
-    public void clicked(View view) {
+    public void clicked() {
         this.mapController.setCenter(new GeoPoint(51.8132979, 4.6900929));
         this.mapController.animateTo(new GeoPoint(51.8132979, 4.6900929));
     }
