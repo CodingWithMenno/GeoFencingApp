@@ -6,6 +6,7 @@ import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 
 
@@ -30,7 +31,6 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
     private MapController mapController;
-    private Button centerMapBtn;
 
     private FitHandler fitHandler;
 
@@ -62,6 +62,13 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.mapController.zoomTo(19);
         this.mapController.setCenter(this.locationOverlay.getMyLocation());
 
+        Button button = (Button) findViewById(R.id.CenterMapBtn);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                clicked();
+            }
+        });
+
     }
 
     @Override
@@ -91,7 +98,9 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     }
 
     public void clicked() {
-        this.mapController.setCenter(new GeoPoint(51.8132979, 4.6900929));
-        this.mapController.animateTo(new GeoPoint(51.8132979, 4.6900929));
+        this.mapController.zoomTo(19);
+        this.mapController.setCenter(this.locationOverlay.getMyLocation());
+//        this.mapController.setCenter(new GeoPoint(51.8132979, 4.6900929));
+//        this.mapController.animateTo(new GeoPoint(51.8132979, 4.6900929));
     }
 }
