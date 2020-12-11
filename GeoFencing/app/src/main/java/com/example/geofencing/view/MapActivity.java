@@ -1,13 +1,14 @@
-package com.example.geofencing;
+package com.example.geofencing.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
-import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import com.example.geofencing.R;
+import com.example.geofencing.view_model.FitHandler;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -15,16 +16,17 @@ import org.osmdroid.views.MapView;
 
 import java.util.ArrayList;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements RouteObserver {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
+
     private MapView mapView;
+
+    private FitHandler fitHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //TODO: Handle permissions
 
         Configuration.getInstance().load(getApplication(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
 
@@ -35,7 +37,8 @@ public class MapActivity extends AppCompatActivity {
 
         requestPermissions(new String[] {
                 Manifest.permission.ACCESS_FINE_LOCATION,
-                Manifest.permission.WRITE_EXTERNAL_STORAGE
+                Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                Manifest.permission.ACCESS_COARSE_LOCATION
         }, REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
@@ -62,23 +65,17 @@ public class MapActivity extends AppCompatActivity {
                     this,
                     permissionsToRequest.toArray(new String[0]),
                     REQUEST_PERMISSIONS_REQUEST_CODE);
+        } else {
+            if (this.fitHandler == null) {
+                this.fitHandler = new FitHandler();
+                this.fitHandler.setRouteObserver(this);
+                this.fitHandler.getGpsUpdates(getApplicationContext());
+            }
         }
     }
 
-    private void requestPermissionsIfNecessary(String[] permissions) {
-        ArrayList<String> permissionsToRequest = new ArrayList<>();
-        for (String permission : permissions) {
-            if (ContextCompat.checkSelfPermission(this, permission)
-                    != PackageManager.PERMISSION_GRANTED) {
-                // Permission is not granted
-                permissionsToRequest.add(permission);
-            }
-        }
-        if (permissionsToRequest.size() > 0) {
-            ActivityCompat.requestPermissions(
-                    this,
-                    permissionsToRequest.toArray(new String[0]),
-                    REQUEST_PERMISSIONS_REQUEST_CODE);
-        }
+    @Override
+    public void updateUserLocation(double latitude, double longitude) {
+        //TODO update user location on map
     }
 }
