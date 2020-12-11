@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">GeoFencing</string>
+    <string name="hello_world">Hallo Ronde Wereld!</string>
+    <string name="title_route_maker">Route maken</string>
+    <string name="plaats_route_maker">Plaats</string>
+    <string name="straat_route_maker">Straat</string>
+    <string name="nummer_route_maker">Nummer</string>
+    <string name="make_lap_route_maker">Rondje maken?</string>
+    <string name="start_route_maker">Start Route</string>
+</resources>

@@ -2,12 +2,18 @@ package com.example.geofencing.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 
 import com.example.geofencing.R;
@@ -29,10 +35,9 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     private MapView mapView;
+
     private MyLocationNewOverlay locationOverlay;
     private MapController mapController;
-
-    private FitHandler fitHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +52,6 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.mapView.setMultiTouchControls(true);
         this.mapView.setTileSource(TileSourceFactory.MAPNIK);
 
-
         requestPermissions(new String[]{
                 Manifest.permission.ACCESS_FINE_LOCATION,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
@@ -60,27 +64,21 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.mapView.getOverlays().add(this.locationOverlay);
         this.mapController = new MapController(this.mapView);
         this.mapController.zoomTo(19);
-        this.mapController.setCenter(this.locationOverlay.getMyLocation());
-
-        Button button = (Button) findViewById(R.id.CenterMapBtn);
-        button.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                clicked();
-            }
-        });
-
+        this.mapController.setCenter(new GeoPoint(51.58656, 4.77596));
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         this.mapView.onResume();
+        this.locationOverlay.onResume();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         this.mapView.onPause();
+        this.locationOverlay.onPause();
     }
 
     @Override
@@ -97,10 +95,9 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         }
     }
 
-    public void clicked() {
+    public void centerButtonClicked(View view) {
         this.mapController.zoomTo(19);
         this.mapController.setCenter(this.locationOverlay.getMyLocation());
-//        this.mapController.setCenter(new GeoPoint(51.8132979, 4.6900929));
-//        this.mapController.animateTo(new GeoPoint(51.8132979, 4.6900929));
+        this.locationOverlay.enableFollowLocation();
     }
 }
