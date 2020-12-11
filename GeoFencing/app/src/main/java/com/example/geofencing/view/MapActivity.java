@@ -6,13 +6,19 @@ import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Toast;
 
 import com.example.geofencing.R;
 import com.example.geofencing.view_model.FitHandler;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
+import org.osmdroid.util.GeoPoint;
+import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
+import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
@@ -21,6 +27,8 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     private MapView mapView;
+    private MyLocationNewOverlay locationOverlay;
+    private MapController mapController;
 
     private FitHandler fitHandler;
 
@@ -40,6 +48,14 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
                 Manifest.permission.WRITE_EXTERNAL_STORAGE,
                 Manifest.permission.ACCESS_COARSE_LOCATION
         }, REQUEST_PERMISSIONS_REQUEST_CODE);
+
+        this.locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()), this.mapView);
+        this.locationOverlay.enableMyLocation();
+        this.locationOverlay.enableFollowLocation();
+        this.mapView.getOverlays().add(this.locationOverlay);
+        this.mapController = new MapController(this.mapView);
+        this.mapController.zoomTo(19);
+        this.mapController.setCenter(this.locationOverlay.getMyLocation());
     }
 
     @Override
@@ -65,17 +81,11 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
                     this,
                     permissionsToRequest.toArray(new String[0]),
                     REQUEST_PERMISSIONS_REQUEST_CODE);
-        } else {
-            if (this.fitHandler == null) {
-                this.fitHandler = new FitHandler();
-                this.fitHandler.setRouteObserver(this);
-                this.fitHandler.getGpsUpdates(getApplicationContext());
-            }
         }
     }
 
-    @Override
-    public void updateUserLocation(double latitude, double longitude) {
-        //TODO update user location on map
+    public void clicked(View view) {
+        this.mapController.setCenter(new GeoPoint(51.8132979, 4.6900929));
+        this.mapController.animateTo(new GeoPoint(51.8132979, 4.6900929));
     }
 }

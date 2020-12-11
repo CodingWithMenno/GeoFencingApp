@@ -21,7 +21,7 @@ public class GpsManager implements LocationListener {
         this.locationManager = (LocationManager) context.getSystemService(Context.LOCATION_SERVICE);
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 1, this);
+            this.locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 500, 0, this);
             this.observer = observer;
         }
     }
@@ -33,7 +33,7 @@ public class GpsManager implements LocationListener {
     @Override
     public void onLocationChanged(@NonNull Location location) {
         if (this.observer != null) {
-            this.observer.updateGPS(location.getLatitude(), location.getLongitude());
+            this.observer.updateGPS();
         }
     }
 }

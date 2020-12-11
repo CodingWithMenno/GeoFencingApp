@@ -5,9 +5,9 @@ import android.content.Context;
 import com.example.geofencing.repository.GpsManager;
 import com.example.geofencing.view.RouteObserver;
 
-public class FitHandler implements GPSobserver {
+public class FitHandler {
 
-    private GpsManager gpsManager;
+//    private GpsManager gpsManager;
     private RouteObserver routeObserver;
 
     public void setRouteObserver(RouteObserver routeObserver) {
@@ -15,17 +15,10 @@ public class FitHandler implements GPSobserver {
     }
 
     public void getGpsUpdates(Context context) {
-        if (this.gpsManager != null) {
-            return;
-        }
-
-        this.gpsManager = new GpsManager(this, context);
-    }
-
-    @Override
-    public void updateGPS(double latitude, double longitude) {
-        if (this.routeObserver != null) {
-            this.routeObserver.updateUserLocation(latitude, longitude);
-        }
+//        if (this.gpsManager != null) {
+//            return;
+//        }
+//
+//        this.gpsManager = new GpsManager(this, context);
     }
 }
