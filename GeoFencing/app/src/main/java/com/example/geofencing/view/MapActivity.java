@@ -8,6 +8,7 @@ import androidx.preference.PreferenceManager;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -18,6 +19,7 @@ import android.widget.ImageButton;
 
 import com.example.geofencing.R;
 import com.example.geofencing.view_model.FitHandler;
+import com.progress.progressview.ProgressView;
 
 import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
@@ -30,23 +32,29 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
-public class MapActivity extends AppCompatActivity implements RouteObserver {
+public class MapActivity extends AppCompatActivity {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     private MapView mapView;
-
     private MyLocationNewOverlay locationOverlay;
-    private MapController mapController;
+
+    private FitHandler fitHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         Configuration.getInstance().load(getApplication(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
-
         setContentView(R.layout.activity_map);
 
+        makeOsmMap();
+    }
+
+    public void centerButtonClicked(View view) {
+        this.fitHandler.centerOnUser();
+    }
+
+    private void makeOsmMap() {
         this.mapView = findViewById(R.id.map_view);
         this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);
         this.mapView.setMultiTouchControls(true);
@@ -59,26 +67,8 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         }, REQUEST_PERMISSIONS_REQUEST_CODE);
 
         this.locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()), this.mapView);
-        this.locationOverlay.enableMyLocation();
-        this.locationOverlay.enableFollowLocation();
-        this.mapView.getOverlays().add(this.locationOverlay);
-        this.mapController = new MapController(this.mapView);
-        this.mapController.zoomTo(19);
-        this.mapController.setCenter(new GeoPoint(51.58656, 4.77596));
-    }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        this.mapView.onResume();
-        this.locationOverlay.onResume();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        this.mapView.onPause();
-        this.locationOverlay.onPause();
+        this.fitHandler = new FitHandler(this.mapView, this.locationOverlay);
     }
 
     @Override
@@ -95,9 +85,17 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         }
     }
 
-    public void centerButtonClicked(View view) {
-        this.mapController.zoomTo(19);
-        this.mapController.setCenter(this.locationOverlay.getMyLocation());
-        this.locationOverlay.enableFollowLocation();
+    @Override
+    protected void onStart() {
+        super.onStart();
+        this.mapView.onResume();
+        this.locationOverlay.onResume();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        this.mapView.onPause();
+        this.locationOverlay.onPause();
     }
 }
