@@ -15,6 +15,7 @@
         android:id="@+id/center_map_btn"
         android:src="@drawable/ic_center_focus"
         android:onClick="centerButtonClicked"
+        android:background="?android:selectableItemBackground"
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_margin="20dp"
