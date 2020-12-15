@@ -1,6 +1,8 @@
 package com.example.geofencing.view_model;
 
+import android.content.Context;
 import android.location.Location;
+import android.widget.Toast;
 
 import com.example.geofencing.repository.GpsManager;
 import com.example.geofencing.view.MapActivity;
@@ -11,9 +13,21 @@ import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
+
 public class FitHandler implements GpsObserver {
 
     private static FitHandler INSTANCE = null;
+
+    private final String USERDATA_FILE = "userData.txt";
+    private File userFile;
 
     private RouteObserver routeObserver;
     private GpsManager gpsManager;
@@ -53,9 +67,32 @@ public class FitHandler implements GpsObserver {
     }
 
     public void startTrackingMetersTravelled(MapActivity mapActivity) {
+        this.userFile = new File(mapActivity.getApplicationContext().getFilesDir(), USERDATA_FILE);
 
-        //TODO inlezen van opgeslagen data en deze initializeren
-        this.userData = new AchievementData();
+        try {
+            if (!this.userFile.exists()) {
+                this.userFile.createNewFile();
+            }
+
+            FileInputStream input = mapActivity.getApplicationContext().openFileInput(USERDATA_FILE);
+            ObjectInputStream inputObject = new ObjectInputStream(input);
+
+            this.userData = (AchievementData) inputObject.readObject();
+
+            inputObject.close();
+            input.close();
+        } catch (IOException | ClassNotFoundException e) {
+            Toast.makeText(mapActivity.getApplicationContext(), "Could not retrieve user data. Resetting data...", Toast.LENGTH_SHORT).show();
+
+            this.userFile.delete();
+            try {
+                this.userFile.createNewFile();
+            } catch (IOException ioException) {
+                ioException.printStackTrace();
+            }
+
+            this.userData = new AchievementData();
+        }
 
         this.gpsManager = new GpsManager(this, mapActivity.getApplicationContext());
         this.setRouteObserver(mapActivity);
@@ -63,6 +100,19 @@ public class FitHandler implements GpsObserver {
 
     public void findQuickestPathTo(String city, String street, String number, boolean makeLap) {
         this.apiHandler.findLocationFor(city, street, number, this.locationOverlay.getLastFix(), makeLap);
+    }
+
+    public void saveUserData() {
+        try {
+            FileOutputStream fos = new FileOutputStream(this.userFile, false);
+            ObjectOutputStream oos = new ObjectOutputStream(fos);
+
+            oos.writeObject(this.userData);
+
+            oos.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

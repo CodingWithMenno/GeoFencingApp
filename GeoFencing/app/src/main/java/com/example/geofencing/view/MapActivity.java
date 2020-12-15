@@ -140,5 +140,9 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         if (this.locationOverlay != null) {
             this.locationOverlay.onPause();
         }
+
+        if (this.fitHandler != null) {
+            this.fitHandler.saveUserData();
+        }
     }
 }

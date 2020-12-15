@@ -1,6 +1,8 @@
 package com.example.geofencing.view_model;
 
-public class AchievementData {
+import java.io.Serializable;
+
+public class AchievementData implements Serializable {
 
     public static int METERS_PER_DAY = 6500;
 
