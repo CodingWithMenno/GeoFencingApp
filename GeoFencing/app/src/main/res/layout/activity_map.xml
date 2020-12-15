@@ -33,7 +33,7 @@
         app:pvProgressColor="#67E6EC"
         app:pvBackgroundWidth="15dp"
         app:pvProgressWidth="15dp"
-        app:pvProgress="0.7"
+        app:pvProgress="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
