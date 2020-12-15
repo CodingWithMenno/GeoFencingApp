@@ -68,6 +68,11 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         startActivity(achievementsIntent);
     }
 
+    public void routeMakerButtonClicked(View view) {
+        Intent achievementsIntent = new Intent(this, RouteMakerActivity.class);
+        startActivity(achievementsIntent);
+    }
+
     private void makeOsmMap() {
         this.mapView = findViewById(R.id.map_view);
         this.mapView.getZoomController().setVisibility(CustomZoomButtonsController.Visibility.NEVER);

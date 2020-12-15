@@ -19,6 +19,17 @@
         android:layout_width="75dp"
         android:layout_height="75dp"
         android:layout_margin="20dp"
+        app:layout_constraintBottom_toTopOf="@id/route_maker_btn"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ImageButton
+        android:id="@+id/route_maker_btn"
+        android:onClick="routeMakerButtonClicked"
+        android:src="@drawable/ic_marker_icon"
+        android:background="?android:selectableItemBackground"
+        android:layout_margin="20dp"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
