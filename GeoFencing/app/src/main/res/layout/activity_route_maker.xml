@@ -21,7 +21,7 @@
     <TextView
         android:id="@+id/text_plaats"
         android:text="@string/plaats_route_maker"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -46,7 +46,7 @@
         android:layout_marginLeft="30dp"
         android:text="@string/straat_route_maker"
         android:textColor="@color/black"
-        android:textSize="30sp"
+        android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_plaats" />
 
@@ -61,7 +61,7 @@
     <TextView
         android:id="@+id/text_nummer"
         android:text="@string/nummer_route_maker"
-        android:textSize="30sp"
+        android:textSize="25sp"
         android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

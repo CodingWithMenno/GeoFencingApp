@@ -1,5 +1,7 @@
 package com.example.geofencing.view_model;
 
+import android.location.Location;
+
 import com.example.geofencing.repository.GpsManager;
 import com.example.geofencing.view.MapActivity;
 import com.example.geofencing.view.RouteObserver;
@@ -13,11 +15,11 @@ public class FitHandler implements GpsObserver {
 
     private static FitHandler INSTANCE = null;
 
-    public static int METERS_PER_DAY = 6500;
-
     private RouteObserver routeObserver;
     private GpsManager gpsManager;
     private AchievementData userData;
+
+    private ApiHandler apiHandler;
 
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
@@ -25,21 +27,10 @@ public class FitHandler implements GpsObserver {
 
 
     private FitHandler(MapView mapView, MyLocationNewOverlay locationOverlay) {
+        this.apiHandler = new ApiHandler(this);
         this.mapView = mapView;
         this.locationOverlay = locationOverlay;
         startMap();
-    }
-
-    public static FitHandler getInstance(MapView mapView, MyLocationNewOverlay locationOverlay) {
-        if (INSTANCE == null) {
-            INSTANCE = new FitHandler(mapView, locationOverlay);
-        }
-
-        return INSTANCE;
-    }
-
-    public static FitHandler getInstance() {
-        return INSTANCE;
     }
 
     public void setRouteObserver(RouteObserver routeObserver) {
@@ -61,15 +52,6 @@ public class FitHandler implements GpsObserver {
         this.locationOverlay.enableFollowLocation();
     }
 
-    @Override
-    public void metersTraveled(float meters) {
-        this.userData.addTotalMetersToday(meters);
-
-        if (this.routeObserver != null) {
-            this.routeObserver.updateMetersTravelled(this.userData.getTotalMetersToday());
-        }
-    }
-
     public void startTrackingMetersTravelled(MapActivity mapActivity) {
 
         //TODO inlezen van opgeslagen data en deze initializeren
@@ -79,11 +61,40 @@ public class FitHandler implements GpsObserver {
         this.setRouteObserver(mapActivity);
     }
 
+    public void findQuickestPathTo(String city, String street, String number, boolean makeLap) {
+        this.apiHandler.findLocationFor(city, street, number, this.locationOverlay.getLastFix(), makeLap);
+    }
+
+    @Override
+    public void metersTraveled(float meters) {
+        this.userData.addTotalMetersToday(meters);
+
+        if (this.routeObserver != null) {
+            this.routeObserver.updateMetersTravelled(this.userData.getTotalMetersToday());
+        }
+    }
+
     public static boolean isInstanceNull() {
         if (INSTANCE == null) {
             return true;
         }
 
         return false;
+    }
+
+    public static FitHandler getInstance(MapView mapView, MyLocationNewOverlay locationOverlay) {
+        if (INSTANCE == null) {
+            INSTANCE = new FitHandler(mapView, locationOverlay);
+        }
+
+        return INSTANCE;
+    }
+
+    public static FitHandler getInstance() {
+        return INSTANCE;
+    }
+
+    public AchievementData getUserData() {
+        return userData;
     }
 }

@@ -4,6 +4,7 @@ import com.example.geofencing.view_model.ApiHandler;
 import com.example.geofencing.view_model.ApiObserver;
 
 import org.jetbrains.annotations.NotNull;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,11 +57,11 @@ public class NominatimAPI implements Callback {
 
     @Override
     public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
-        String myResponse = response.body().string();
+        String jsonData = response.body().string();
 
-        JSONObject jsonObject = null;
+        JSONArray jsonObject = null;
         try {
-            jsonObject = new JSONObject(myResponse);
+            jsonObject = new JSONArray(jsonData);
         } catch (JSONException e) {
             e.printStackTrace();
         }

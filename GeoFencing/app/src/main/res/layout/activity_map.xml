@@ -40,7 +40,7 @@
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         app:pvShape="circle"
-        app:pvBackgroundColor="#e9e9e9"
+        app:pvBackgroundColor="#606060"
         app:pvProgressColor="#67E6EC"
         app:pvBackgroundWidth="15dp"
         app:pvProgressWidth="15dp"

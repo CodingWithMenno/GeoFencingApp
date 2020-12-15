@@ -18,6 +18,7 @@ import android.widget.ImageButton;
 
 
 import com.example.geofencing.R;
+import com.example.geofencing.view_model.AchievementData;
 import com.example.geofencing.view_model.FitHandler;
 import com.progress.progressview.ProgressView;
 
@@ -93,7 +94,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
 
     @Override
     public void updateMetersTravelled(float totalMeters) {
-        float percentage = (totalMeters / FitHandler.METERS_PER_DAY) * 100;
+        float percentage = (totalMeters / AchievementData.METERS_PER_DAY) * 100;
         float mappedValue = percentage / 100;
 
         this.progressMeterView.post(() -> {
