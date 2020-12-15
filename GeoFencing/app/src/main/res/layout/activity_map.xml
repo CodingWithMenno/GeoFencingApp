@@ -23,6 +23,8 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.progress.progressview.ProgressView
+        android:id="@+id/progress_meter_view"
+        android:onClick="meterBarClicked"
         android:layout_margin="20dp"
         android:layout_width="wrap_content"
         android:layout_height="100dp"

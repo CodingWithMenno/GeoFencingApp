@@ -32,12 +32,14 @@ import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements RouteObserver {
 
     private final int REQUEST_PERMISSIONS_REQUEST_CODE = 1;
 
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
+
+    private ProgressView progressMeterView;
 
     private FitHandler fitHandler;
 
@@ -47,11 +49,23 @@ public class MapActivity extends AppCompatActivity {
         Configuration.getInstance().load(getApplication(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         setContentView(R.layout.activity_map);
 
-        makeOsmMap();
+        this.progressMeterView = findViewById(R.id.progress_meter_view);
+
+        if (FitHandler.isInstanceNull()) {
+            makeOsmMap();
+        } else {
+            this.fitHandler = FitHandler.getInstance();
+        }
+
     }
 
     public void centerButtonClicked(View view) {
         this.fitHandler.centerOnUser();
+    }
+
+    public void meterBarClicked(View view) {
+        Intent achievementsIntent = new Intent(this, AchievementsActivity.class);
+        startActivity(achievementsIntent);
     }
 
     private void makeOsmMap() {
@@ -68,7 +82,18 @@ public class MapActivity extends AppCompatActivity {
 
         this.locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()), this.mapView);
 
-        this.fitHandler = new FitHandler(this.mapView, this.locationOverlay);
+        this.fitHandler = FitHandler.getInstance(this.mapView, this.locationOverlay);
+        this.fitHandler.startTrackingMetersTravelled(this);
+    }
+
+    @Override
+    public void updateMetersTravelled(float totalMeters) {
+        float percentage = (totalMeters / FitHandler.METERS_PER_DAY) * 100;
+        float mappedValue = percentage / 100;
+
+        this.progressMeterView.post(() -> {
+           this.progressMeterView.setProgress(mappedValue);
+        });
     }
 
     @Override
@@ -88,14 +113,26 @@ public class MapActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        this.mapView.onResume();
-        this.locationOverlay.onResume();
+
+        if (this.mapView != null) {
+            this.mapView.onResume();
+        }
+
+        if (this.locationOverlay != null) {
+            this.locationOverlay.onResume();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        this.mapView.onPause();
-        this.locationOverlay.onPause();
+
+        if (this.mapView != null) {
+            this.mapView.onPause();
+        }
+
+        if (this.locationOverlay != null) {
+            this.locationOverlay.onPause();
+        }
     }
 }
