@@ -10,4 +10,6 @@ public interface RouteObserver {
 
     void setNewRoute(List<GeoPoint> geoPoints);
 
+    void removeRoute();
+
 }

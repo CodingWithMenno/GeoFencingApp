@@ -2,10 +2,17 @@ package com.example.geofencing.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 
@@ -13,6 +20,7 @@ import android.view.View;
 import com.example.geofencing.R;
 import com.example.geofencing.view_model.AchievementData;
 import com.example.geofencing.view_model.FitHandler;
+import com.example.geofencing.view_model.Maths;
 import com.progress.progressview.ProgressView;
 
 import org.osmdroid.config.Configuration;
@@ -20,6 +28,7 @@ import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -34,6 +43,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
     private Polyline route;
+    private Marker routeMarker;
 
     private ProgressView progressMeterView;
 
@@ -83,6 +93,10 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
 
         this.locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()), this.mapView);
 
+        Bitmap icon = Maths.convertToBitmap(getResources().getDrawable(R.drawable.ic_userarrow), 80, 90);
+        this.locationOverlay.setPersonIcon(icon);
+        this.locationOverlay.setDirectionArrow(icon, icon);
+
         this.fitHandler = FitHandler.getInstance(this.mapView, this.locationOverlay);
         this.fitHandler.startTrackingMetersTravelled(this);
     }
@@ -96,7 +110,6 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
            this.progressMeterView.setProgress(mappedValue);
         });
 
-
         if (this.route != null) {
             this.fitHandler.removeRoutePointsCloseToUser(this.route, this.locationOverlay.getMyLocation());
         }
@@ -106,11 +119,28 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     public void setNewRoute(List<GeoPoint> geoPoints) {
         if (this.route != null) {
             this.mapView.getOverlayManager().remove(this.route);
+            this.mapView.getOverlayManager().remove(this.routeMarker);
         }
+
+        this.routeMarker = new Marker(this.mapView);
+        this.routeMarker.setPosition(geoPoints.get(geoPoints.size() - 1));
+        this.routeMarker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_location));
+        this.routeMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        this.mapView.getOverlayManager().add(this.routeMarker);
 
         this.route = new Polyline();
         this.route.setPoints(geoPoints);
+        Paint paint = this.route.getOutlinePaint();
+        paint.setARGB(255, 103, 230, 236);
         this.mapView.getOverlayManager().add(this.route);
+    }
+
+    @Override
+    public void removeRoute() {
+        this.mapView.getOverlayManager().remove(this.route);
+        this.mapView.getOverlayManager().remove(this.routeMarker);
+        this.route = null;
+        this.routeMarker = null;
     }
 
     @Override

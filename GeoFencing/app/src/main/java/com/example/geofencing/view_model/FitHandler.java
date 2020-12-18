@@ -16,10 +16,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,11 +56,11 @@ public class FitHandler implements GpsObserver {
         this.mapView.getOverlays().add(this.locationOverlay);
         this.mapController = new MapController(this.mapView);
         this.mapController.setCenter(new GeoPoint(51.58656, 4.77596));
-        this.mapController.zoomTo(19);
+        this.mapController.zoomTo(20);
     }
 
     public void centerOnUser() {
-        this.mapController.zoomTo(19);
+        this.mapController.zoomTo(20);
         this.mapController.setCenter(this.locationOverlay.getMyLocation());
         this.locationOverlay.enableFollowLocation();
     }
@@ -138,6 +136,10 @@ public class FitHandler implements GpsObserver {
 
         for (GeoPoint geoPoint : toRemove) {
             geoPoints.remove(geoPoint);
+        }
+
+        if (geoPoints.isEmpty()) {
+            this.routeObserver.removeRoute();
         }
 
         route.setPoints(geoPoints);
