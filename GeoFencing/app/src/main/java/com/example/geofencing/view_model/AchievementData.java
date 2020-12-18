@@ -38,7 +38,12 @@ public class AchievementData implements Serializable {
         if (this.currentDayOfMonth != day) {
             this.metersPerDayInMonth.put(this.currentDayOfMonth, this.totalMetersToday);
             this.currentDayOfMonth = day;
-            this.totalMetersToday = this.metersPerDayInMonth.get(day);
+            try {
+                this.totalMetersToday = this.metersPerDayInMonth.get(day);
+            } catch (NullPointerException e) {
+                this.totalMetersToday = 0;
+            }
+
         }
 
         if (this.currentMonth != month) {
