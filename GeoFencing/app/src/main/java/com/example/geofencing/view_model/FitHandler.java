@@ -101,8 +101,8 @@ public class FitHandler implements GpsObserver {
         this.setRouteObserver(mapActivity);
     }
 
-    public void findQuickestPathTo(String city, String street, String number, boolean makeLap) {
-        this.apiHandler.findLocationFor(city, street, number, this.locationOverlay.getLastFix(), makeLap);
+    public void findQuickestPathTo(String city, String street, String number) {
+        this.apiHandler.findLocationFor(city, street, number, this.locationOverlay.getLastFix());
     }
 
     public synchronized void saveUserData() {
@@ -120,10 +120,6 @@ public class FitHandler implements GpsObserver {
 
     public synchronized void updatePersonalRecord() {
         this.userData.checkForRecord();
-    }
-
-    public void newRouteFound(List<GeoPoint> geoPoints) {
-        //TODO doe iets
     }
 
     @Override
@@ -149,6 +145,10 @@ public class FitHandler implements GpsObserver {
         }
 
         return INSTANCE;
+    }
+
+    public RouteObserver getRouteObserver() {
+        return routeObserver;
     }
 
     public static FitHandler getInstance() {

@@ -30,17 +30,12 @@ public class OrsApi implements Callback {
         this.observer = observer;
     }
 
-    public void getFastestRouteTo(Location locationFrom, Location locationTo, boolean makeLap) {
+    public void getFastestRouteTo(Location locationFrom, Location locationTo) {
         String prefix = "https://api.openrouteservice.org/v2/directions/foot-walking?api_key=";
         String from = locationFrom.getLongitude() + "," + locationFrom.getLatitude();
-        String to = locationTo.getLongitude() + "," + locationFrom.getLatitude();
+        String to = locationTo.getLongitude() + "," + locationTo.getLatitude();
 
-        String url = prefix;
-        if (makeLap) {
-            url += this.key + "&start=" + from + "&waypoint=" + to + "&end=" + from;
-        } else {
-            url += this.key + "&start=" + from + "&end=" + to;
-        }
+        String url = prefix + this.key + "&start=" + from + "&end=" + to;
 
         Request request = new Request.Builder().url(url).build();
         this.client.newCall(request).enqueue(this);

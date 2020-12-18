@@ -21,7 +21,6 @@ public class ApiHandler implements ApiObserver {
 
     private final NominatimAPI nominatimAPI;
     private final OrsApi orsApi;
-    private boolean makeLap;
     private Location currentLocation;
 
     public ApiHandler(FitHandler fitHandler) {
@@ -30,14 +29,13 @@ public class ApiHandler implements ApiObserver {
         this.orsApi = new OrsApi(this);
     }
 
-    public void findLocationFor(String city, String street, String number, Location currentLocation, boolean makeLap) {
+    public void findLocationFor(String city, String street, String number, Location currentLocation) {
         this.currentLocation = currentLocation;
-        this.makeLap = makeLap;
         this.nominatimAPI.searchAddressFor(city, street, number);
     }
 
     private void calculatePathTo(Location finalLocation) {
-        this.orsApi.getFastestRouteTo(this.currentLocation, finalLocation, this.makeLap);
+        this.orsApi.getFastestRouteTo(this.currentLocation, finalLocation);
     }
 
     @Override
@@ -86,7 +84,7 @@ public class ApiHandler implements ApiObserver {
             //The code will always go in here
         } finally {
             if (!geoPointsOnRoute.isEmpty()) {
-                this.fitHandler.newRouteFound(geoPointsOnRoute);
+                this.fitHandler.getRouteObserver().setNewRoute(geoPointsOnRoute);
             }
         }
     }

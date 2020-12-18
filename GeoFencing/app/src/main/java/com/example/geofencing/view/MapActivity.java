@@ -9,6 +9,7 @@ import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -28,10 +29,13 @@ import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polygon;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MapActivity extends AppCompatActivity implements RouteObserver {
 
@@ -100,6 +104,13 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.progressMeterView.post(() -> {
            this.progressMeterView.setProgress(mappedValue);
         });
+    }
+
+    @Override
+    public void setNewRoute(List<GeoPoint> geoPoints) {
+        Polyline line = new Polyline();
+        line.setPoints(geoPoints);
+        this.mapView.getOverlayManager().add(line);
     }
 
     @Override
