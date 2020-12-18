@@ -104,7 +104,7 @@ public class FitHandler implements GpsObserver {
         this.apiHandler.findLocationFor(city, street, number, this.locationOverlay.getLastFix(), makeLap);
     }
 
-    public void saveUserData() {
+    public synchronized void saveUserData() {
         try {
             FileOutputStream fos = new FileOutputStream(this.userFile, false);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -115,6 +115,10 @@ public class FitHandler implements GpsObserver {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public synchronized void updatePersonalRecord() {
+        this.userData.checkForRecord();
     }
 
     @Override

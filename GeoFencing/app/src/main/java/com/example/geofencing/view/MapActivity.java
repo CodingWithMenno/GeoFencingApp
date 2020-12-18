@@ -142,6 +142,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         }
 
         if (this.fitHandler != null) {
+            this.fitHandler.updatePersonalRecord();
             this.fitHandler.saveUserData();
         }
     }
