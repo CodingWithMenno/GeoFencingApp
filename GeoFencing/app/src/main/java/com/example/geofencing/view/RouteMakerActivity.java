@@ -1,5 +1,6 @@
 package com.example.geofencing.view;
 
+import android.content.pm.ActivityInfo;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
@@ -24,6 +25,7 @@ public class RouteMakerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route_maker);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.cityEdit = findViewById(R.id.edit_plaats);
         this.streetEdit = findViewById(R.id.edit_straat);

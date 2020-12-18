@@ -92,6 +92,8 @@ public class FitHandler implements GpsObserver {
             }
 
             this.userData = new AchievementData();
+        } finally {
+            this.userData.checkCurrentDay();
         }
 
         this.gpsManager = new GpsManager(this, mapActivity.getApplicationContext());
