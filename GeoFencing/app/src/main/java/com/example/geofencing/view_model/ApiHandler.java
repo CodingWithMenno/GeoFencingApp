@@ -2,25 +2,32 @@ package com.example.geofencing.view_model;
 
 import android.location.Location;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.example.geofencing.repository.NominatimAPI;
+import com.example.geofencing.repository.OrsApi;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.osmdroid.util.GeoPoint;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ApiHandler implements ApiObserver {
 
-    private FitHandler fitHandler;
+    private final FitHandler fitHandler;
 
-    private NominatimAPI nominatimAPI;
+    private final NominatimAPI nominatimAPI;
+    private final OrsApi orsApi;
     private boolean makeLap;
     private Location currentLocation;
 
     public ApiHandler(FitHandler fitHandler) {
         this.fitHandler = fitHandler;
         this.nominatimAPI = new NominatimAPI(this);
+        this.orsApi = new OrsApi(this);
     }
 
     public void findLocationFor(String city, String street, String number, Location currentLocation, boolean makeLap) {
@@ -30,13 +37,12 @@ public class ApiHandler implements ApiObserver {
     }
 
     private void calculatePathTo(Location finalLocation) {
-        //TODO OrsApi gebruiken
-        System.out.println("Afstand naar nieuwe locatie is: " + currentLocation.distanceTo(finalLocation) + "meter");
+        this.orsApi.getFastestRouteTo(this.currentLocation, finalLocation, this.makeLap);
     }
 
     @Override
     public void callFailed() {
-        //TODO nog invullen
+        Log.d(ApiHandler.class.getName(), "Something went wrong with the API calls/parsing");
     }
 
     @Override
@@ -53,7 +59,35 @@ public class ApiHandler implements ApiObserver {
             calculatePathTo(location);
         } catch (JSONException e) {
             Log.d(ApiHandler.class.getName(), "No address found");
-            //TODO iets doen als er geen adres is gevonden
+            callFailed();
+        }
+    }
+
+    @Override
+    public void orsSuccess(JSONObject response) {
+        List<GeoPoint> geoPointsOnRoute = new ArrayList<>();
+
+        try {
+            JSONArray features = response.getJSONArray("features");
+            JSONObject featuresObject = features.getJSONObject(0);
+            JSONObject geometry = featuresObject.getJSONObject("geometry");
+            JSONArray coordinates = geometry.getJSONArray("coordinates");
+
+            int coordinateCounter = 0;
+            while (true) {
+                JSONArray coordinate = coordinates.getJSONArray(coordinateCounter);
+                double longitude = coordinate.getDouble(0);
+                double latitude = coordinate.getDouble(1);
+                geoPointsOnRoute.add(new GeoPoint(latitude, longitude));
+                coordinateCounter++;
+            }
+
+        } catch (JSONException e) {
+            //The code will always go in here
+        } finally {
+            if (!geoPointsOnRoute.isEmpty()) {
+                this.fitHandler.newRouteFound(geoPointsOnRoute);
+            }
         }
     }
 }

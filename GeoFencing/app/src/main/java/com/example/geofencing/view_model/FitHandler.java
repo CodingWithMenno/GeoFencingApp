@@ -1,7 +1,5 @@
 package com.example.geofencing.view_model;
 
-import android.content.Context;
-import android.location.Location;
 import android.widget.Toast;
 
 import com.example.geofencing.repository.GpsManager;
@@ -21,6 +19,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 public class FitHandler implements GpsObserver {
 
@@ -121,6 +120,10 @@ public class FitHandler implements GpsObserver {
 
     public synchronized void updatePersonalRecord() {
         this.userData.checkForRecord();
+    }
+
+    public void newRouteFound(List<GeoPoint> geoPoints) {
+        //TODO doe iets
     }
 
     @Override
