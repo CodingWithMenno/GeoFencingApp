@@ -2,20 +2,12 @@ package com.example.geofencing.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.location.LocationManager;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageButton;
 
 
 import com.example.geofencing.R;
@@ -27,9 +19,7 @@ import org.osmdroid.config.Configuration;
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.CustomZoomButtonsController;
-import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
-import org.osmdroid.views.overlay.Polygon;
 import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
@@ -43,6 +33,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
 
     private MapView mapView;
     private MyLocationNewOverlay locationOverlay;
+    private Polyline route;
 
     private ProgressView progressMeterView;
 
@@ -104,13 +95,22 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.progressMeterView.post(() -> {
            this.progressMeterView.setProgress(mappedValue);
         });
+
+
+        if (this.route != null) {
+            this.fitHandler.removeRoutePointsCloseToUser(this.route, this.locationOverlay.getMyLocation());
+        }
     }
 
     @Override
     public void setNewRoute(List<GeoPoint> geoPoints) {
-        Polyline line = new Polyline();
-        line.setPoints(geoPoints);
-        this.mapView.getOverlayManager().add(line);
+        if (this.route != null) {
+            this.mapView.getOverlayManager().remove(this.route);
+        }
+
+        this.route = new Polyline();
+        this.route.setPoints(geoPoints);
+        this.mapView.getOverlayManager().add(this.route);
     }
 
     @Override

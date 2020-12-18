@@ -46,4 +46,8 @@ public class GpsManager implements LocationListener {
 
         this.observer.metersTraveled(distanceTraveled);
     }
+
+    public Location getLocation() {
+        return previousLocation;
+    }
 }

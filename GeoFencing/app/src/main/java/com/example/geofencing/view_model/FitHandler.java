@@ -9,6 +9,7 @@ import com.example.geofencing.view.RouteObserver;
 import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapController;
 import org.osmdroid.views.MapView;
+import org.osmdroid.views.overlay.Polyline;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
 import java.io.File;
@@ -19,6 +20,7 @@ import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class FitHandler implements GpsObserver {
@@ -120,6 +122,25 @@ public class FitHandler implements GpsObserver {
 
     public synchronized void updatePersonalRecord() {
         this.userData.checkForRecord();
+    }
+
+    public void removeRoutePointsCloseToUser(Polyline route, GeoPoint myLocation) {
+        List<GeoPoint> geoPoints = route.getPoints();
+        GeoPoint userLocation = new GeoPoint(myLocation);
+
+        List<GeoPoint> toRemove = new ArrayList<>();
+
+        for (GeoPoint geoPoint : geoPoints) {
+            if (geoPoint.distanceToAsDouble(userLocation) < 20) {
+                toRemove.add(geoPoint);
+            }
+        }
+
+        for (GeoPoint geoPoint : toRemove) {
+            geoPoints.remove(geoPoint);
+        }
+
+        route.setPoints(geoPoints);
     }
 
     @Override
