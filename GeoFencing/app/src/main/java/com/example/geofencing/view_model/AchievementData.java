@@ -1,6 +1,6 @@
 package com.example.geofencing.view_model;
 
-import android.util.Pair;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.Serializable;
 import java.util.AbstractMap;
@@ -24,7 +24,7 @@ public class AchievementData implements Serializable {
         this.currentDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         this.currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         this.metersPerDayInMonth = new HashMap<>();
-        this.bestPerformance = new Pair<>(System.currentTimeMillis(), this.totalMetersToday);
+        this.bestPerformance = Pair.of(System.currentTimeMillis(), this.totalMetersToday);
     }
 
     /**
@@ -47,8 +47,8 @@ public class AchievementData implements Serializable {
     }
 
     public void checkForRecord() {
-        if (this.totalMetersToday > this.bestPerformance.second) {
-            this.bestPerformance = new Pair<>(System.currentTimeMillis(), this.totalMetersToday);
+        if (this.totalMetersToday > this.bestPerformance.getValue()) {
+            this.bestPerformance = Pair.of(System.currentTimeMillis(), this.totalMetersToday);
         }
     }
 

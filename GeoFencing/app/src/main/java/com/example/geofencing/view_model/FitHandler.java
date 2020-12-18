@@ -82,6 +82,7 @@ public class FitHandler implements GpsObserver {
             inputObject.close();
             input.close();
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             Toast.makeText(mapActivity.getApplicationContext(), "Could not retrieve user data. Resetting data...", Toast.LENGTH_SHORT).show();
 
             this.userFile.delete();
@@ -94,6 +95,7 @@ public class FitHandler implements GpsObserver {
             this.userData = new AchievementData();
         } finally {
             this.userData.checkCurrentDay();
+            saveUserData();
         }
 
         this.gpsManager = new GpsManager(this, mapActivity.getApplicationContext());
