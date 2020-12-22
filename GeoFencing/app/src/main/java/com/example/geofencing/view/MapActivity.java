@@ -2,10 +2,13 @@ package com.example.geofencing.view;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.preference.PreferenceManager;
 
 import android.Manifest;
+import android.app.Notification;
+import android.app.NotificationChannel;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -13,8 +16,11 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 
 import com.example.geofencing.R;
@@ -30,6 +36,7 @@ import org.osmdroid.views.CustomZoomButtonsController;
 import org.osmdroid.views.MapView;
 import org.osmdroid.views.overlay.Marker;
 import org.osmdroid.views.overlay.Polyline;
+import org.osmdroid.views.overlay.gestures.RotationGestureOverlay;
 import org.osmdroid.views.overlay.mylocation.GpsMyLocationProvider;
 import org.osmdroid.views.overlay.mylocation.MyLocationNewOverlay;
 
@@ -92,8 +99,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         }, REQUEST_PERMISSIONS_REQUEST_CODE);
 
         this.locationOverlay = new MyLocationNewOverlay(new GpsMyLocationProvider(getApplicationContext()), this.mapView);
-
-        Bitmap icon = Maths.convertToBitmap(getResources().getDrawable(R.drawable.ic_userarrow), 80, 90);
+        Bitmap icon = Maths.convertToBitmap(getResources().getDrawable(R.drawable.ic_userarrow), 120, 135);
         this.locationOverlay.setPersonIcon(icon);
         this.locationOverlay.setDirectionArrow(icon, icon);
 
@@ -118,21 +124,20 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     @Override
     public void setNewRoute(List<GeoPoint> geoPoints) {
         if (this.route != null) {
-            this.mapView.getOverlayManager().remove(this.route);
-            this.mapView.getOverlayManager().remove(this.routeMarker);
+            removeRoute();
         }
-
-        this.routeMarker = new Marker(this.mapView);
-        this.routeMarker.setPosition(geoPoints.get(geoPoints.size() - 1));
-        this.routeMarker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_location));
-        this.routeMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
-        this.mapView.getOverlayManager().add(this.routeMarker);
 
         this.route = new Polyline();
         this.route.setPoints(geoPoints);
         Paint paint = this.route.getOutlinePaint();
         paint.setARGB(255, 103, 230, 236);
         this.mapView.getOverlayManager().add(this.route);
+
+        this.routeMarker = new Marker(this.mapView);
+        this.routeMarker.setPosition(geoPoints.get(geoPoints.size() - 1));
+        this.routeMarker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_location));
+        this.routeMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
+        this.mapView.getOverlayManager().add(this.routeMarker);
     }
 
     @Override
@@ -141,6 +146,16 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.mapView.getOverlayManager().remove(this.routeMarker);
         this.route = null;
         this.routeMarker = null;
+    }
+
+    @Override
+    public void routeCompleted() {
+        Toast.makeText(getApplicationContext(), R.string.route_completed, Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void dayGoalReached() {
+        Toast.makeText(getApplicationContext(), R.string.day_goal_reached, Toast.LENGTH_LONG).show();
     }
 
     @Override

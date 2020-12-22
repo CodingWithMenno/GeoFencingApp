@@ -27,26 +27,23 @@ public class NominatimAPI implements Callback {
         this.observer = observer;
     }
 
-    public void searchAddressFor(String city, String street, String number) {
+    public void searchAddressFor(String place) {
         this.client = new OkHttpClient();
 
-        String url = makeURL(city, street, number);
+        String url = makeURL(place);
         Request request = new Request.Builder().url(url).build();
 
         this.client.newCall(request).enqueue(this);
     }
 
-    private String makeURL(String city, String street, String number) {
+    private String makeURL(String place) {
         String prefix = "https://nominatim.openstreetmap.org/search/";
         String postfix = "?format=json&addressdetails=1&limit=1&polygon_svg=1";
 
-        city = city.trim();
-        street = street.trim();
-        number = number.trim();
+        place = place.trim();
+        place = place.replace(" ", "%20");
 
-        street = street.replace(" ", "%20");
-
-        return prefix + street + "%20" + number + "%20" + city + postfix;
+        return prefix + place + postfix;
     }
 
     @Override

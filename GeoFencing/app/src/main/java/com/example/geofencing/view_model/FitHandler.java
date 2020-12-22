@@ -1,6 +1,11 @@
 package com.example.geofencing.view_model;
 
+import android.location.Location;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.widget.Toast;
+
+import androidx.core.app.NotificationCompat;
 
 import com.example.geofencing.repository.GpsManager;
 import com.example.geofencing.view.MapActivity;
@@ -101,8 +106,8 @@ public class FitHandler implements GpsObserver {
         this.setRouteObserver(mapActivity);
     }
 
-    public void findQuickestPathTo(String city, String street, String number) {
-        this.apiHandler.findLocationFor(city, street, number, this.locationOverlay.getLastFix());
+    public void findQuickestPathTo(String place) {
+        this.apiHandler.findLocationFor(place, this.locationOverlay.getLastFix());
     }
 
     public synchronized void saveUserData() {
@@ -126,31 +131,61 @@ public class FitHandler implements GpsObserver {
         List<GeoPoint> geoPoints = route.getPoints();
         GeoPoint userLocation = new GeoPoint(myLocation);
 
-        List<GeoPoint> toRemove = new ArrayList<>();
+        GeoPoint toRemove = null;
+        boolean isOnRoute = false;
 
         for (GeoPoint geoPoint : geoPoints) {
-            if (geoPoint.distanceToAsDouble(userLocation) < 20) {
-                toRemove.add(geoPoint);
+            if (geoPoint.distanceToAsDouble(userLocation) < 15) {
+                toRemove = geoPoint;
+            }
+
+            if (geoPoint.distanceToAsDouble(userLocation) < 50) {
+                isOnRoute = true;
             }
         }
 
-        for (GeoPoint geoPoint : toRemove) {
-            geoPoints.remove(geoPoint);
+        if (!isOnRoute) {
+            GeoPoint geoDestiny = geoPoints.get(geoPoints.size() - 1);
+            Location destiny = new Location("");
+            destiny.setLongitude(geoDestiny.getLongitude());
+            destiny.setLatitude(geoDestiny.getLatitude());
+            this.apiHandler.calculatePathTo(destiny);
         }
 
-        if (geoPoints.isEmpty()) {
+        if (toRemove != null) {
+            int pointToRemove = geoPoints.indexOf(toRemove);
+            List<GeoPoint> pointsToRemove = new ArrayList<>();
+            for (int i = 0; i < geoPoints.size(); i++) {
+                if (i <= pointToRemove) {
+                    pointsToRemove.add(geoPoints.get(i));
+                }
+            }
+
+            for (GeoPoint geoPoint : pointsToRemove) {
+                geoPoints.remove(geoPoint);
+            }
+        }
+
+        if (geoPoints.isEmpty() || geoPoints.get(geoPoints.size() - 1) == null) {
             this.routeObserver.removeRoute();
+            this.routeObserver.routeCompleted();
         }
 
         route.setPoints(geoPoints);
     }
 
     @Override
-    public void metersTraveled(float meters) {
+    public void metersTraveled(float meters, Location currentLocation) {
         this.userData.addTotalMetersToday(meters);
+        this.apiHandler.setCurrentLocation(currentLocation);
 
         if (this.routeObserver != null) {
             this.routeObserver.updateMetersTravelled(this.userData.getTotalMetersToday());
+
+            if (this.userData.getTotalMetersToday() >= AchievementData.METERS_PER_DAY && !this.userData.isDayGoalReached()) {
+                this.userData.setDayGoalReached(true);
+                this.routeObserver.dayGoalReached();
+            }
         }
     }
 

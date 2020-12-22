@@ -11,6 +11,8 @@ public class AchievementData implements Serializable {
 
     public static int METERS_PER_DAY = 6500;
 
+    private boolean dayGoalReached;
+
     private HashMap<Integer, Float> metersPerDayInMonth; //Integer is de dag van de maand; Float is het aantal meters van die dag;
     private int currentMonth;
 
@@ -20,6 +22,7 @@ public class AchievementData implements Serializable {
     private Pair<Long, Float> bestPerformance;
 
     public AchievementData() {
+        this.dayGoalReached = false;
         this.totalMetersToday = 0;
         this.currentDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         this.currentMonth = Calendar.getInstance().get(Calendar.MONTH);
@@ -43,7 +46,7 @@ public class AchievementData implements Serializable {
             } catch (NullPointerException e) {
                 this.totalMetersToday = 0;
             }
-
+            this.dayGoalReached = false;
         }
 
         if (this.currentMonth != month) {
@@ -72,5 +75,13 @@ public class AchievementData implements Serializable {
 
     public void addTotalMetersToday(float meters) {
         this.totalMetersToday += meters;
+    }
+
+    public boolean isDayGoalReached() {
+        return dayGoalReached;
+    }
+
+    public void setDayGoalReached(boolean dayGoalReached) {
+        this.dayGoalReached = dayGoalReached;
     }
 }

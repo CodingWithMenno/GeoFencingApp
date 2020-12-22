@@ -7,9 +7,11 @@
     -->
     <string name="hello_world">Hello Square World!</string>
     <string name="title_route_maker">Create route</string>
-    <string name="plaats_route_maker">City</string>
+    <string name="plaats_route_maker">Location</string>
     <string name="straat_route_maker">Street</string>
     <string name="nummer_route_maker">Number</string>
     <string name="make_lap_route_maker">Make Lap?</string>
     <string name="start_route_maker">Start Route</string>
+    <string name="route_completed">You have finished the route!</string>
+    <string name="day_goal_reached">Congratulations! You reached your daily goal.</string>
 </resources>

@@ -12,4 +12,7 @@ public interface RouteObserver {
 
     void removeRoute();
 
+    void routeCompleted();
+
+    void dayGoalReached();
 }

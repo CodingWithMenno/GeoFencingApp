@@ -29,12 +29,12 @@ public class ApiHandler implements ApiObserver {
         this.orsApi = new OrsApi(this);
     }
 
-    public void findLocationFor(String city, String street, String number, Location currentLocation) {
+    public void findLocationFor(String place, Location currentLocation) {
         this.currentLocation = currentLocation;
-        this.nominatimAPI.searchAddressFor(city, street, number);
+        this.nominatimAPI.searchAddressFor(place);
     }
 
-    private void calculatePathTo(Location finalLocation) {
+    public void calculatePathTo(Location finalLocation) {
         this.orsApi.getFastestRouteTo(this.currentLocation, finalLocation);
     }
 
@@ -87,5 +87,9 @@ public class ApiHandler implements ApiObserver {
                 this.fitHandler.getRouteObserver().setNewRoute(geoPointsOnRoute);
             }
         }
+    }
+
+    public void setCurrentLocation(Location currentLocation) {
+        this.currentLocation = currentLocation;
     }
 }

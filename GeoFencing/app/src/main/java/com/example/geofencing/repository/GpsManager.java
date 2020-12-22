@@ -44,7 +44,7 @@ public class GpsManager implements LocationListener {
 
         float distanceTraveled = this.previousLocation.distanceTo(location);
 
-        this.observer.metersTraveled(distanceTraveled);
+        this.observer.metersTraveled(distanceTraveled, location);
     }
 
     public Location getLocation() {
