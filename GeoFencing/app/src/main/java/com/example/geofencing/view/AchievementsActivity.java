@@ -8,8 +8,12 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.geofencing.R;
 import com.example.geofencing.view.fragments.FragmentAdapter;
+import com.example.geofencing.view_model.AchievementData;
 import com.example.geofencing.view_model.FitHandler;
+
 import com.google.android.material.tabs.TabLayout;
+
+import java.util.ArrayList;
 
 
 public class AchievementsActivity extends AppCompatActivity {
@@ -23,6 +27,7 @@ public class AchievementsActivity extends AppCompatActivity {
     TabLayout tabLayout;
 
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +39,9 @@ public class AchievementsActivity extends AppCompatActivity {
         setPagerAdapter();
         setTabLayout();
 
+
         //this.totalStepsView = findViewById(R.id.total_steps_text);
-        //this.chart = findViewById(R.id.achievementChart);
+
 
         this.fitHandler = FitHandler.getInstance();
 
