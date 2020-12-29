@@ -10,6 +10,7 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -63,6 +64,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         super.onCreate(savedInstanceState);
         Configuration.getInstance().load(getApplication(), PreferenceManager.getDefaultSharedPreferences(getApplicationContext()));
         setContentView(R.layout.activity_map);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         this.progressMeterView = findViewById(R.id.progress_meter_view);
         this.stopRouteButton = findViewById(R.id.stop_route_btn);
@@ -158,7 +160,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.stopRouteButton.post(() -> {
             this.stopRouteButton.setVisibility(View.INVISIBLE);
         });
-        
+
         this.mapView.getOverlayManager().remove(this.route);
         this.mapView.getOverlayManager().remove(this.routeMarker);
         this.route = null;
@@ -218,5 +220,11 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
             this.fitHandler.updatePersonalRecord();
             this.fitHandler.saveUserData();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        super.onDestroy();
     }
 }
