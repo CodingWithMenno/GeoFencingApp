@@ -47,4 +47,18 @@
         app:pvProgress="1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/stop_route_btn"
+        android:visibility="invisible"
+        android:onClick="stopRouteClicked"
+        android:textColor="#67E6EC"
+        android:backgroundTint="#606060"
+        android:layout_marginBottom="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stop_route_button"
+        app:layout_constraintBottom_toBottomOf="@+id/map_view"
+        app:layout_constraintEnd_toStartOf="@+id/route_maker_btn"
+        app:layout_constraintStart_toEndOf="@+id/progress_meter_view" />
 </androidx.constraintlayout.widget.ConstraintLayout>

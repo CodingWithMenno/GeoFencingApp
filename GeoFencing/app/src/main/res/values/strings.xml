@@ -14,4 +14,5 @@
     <string name="start_route_maker">Start Route</string>
     <string name="route_completed">You have finished the route!</string>
     <string name="day_goal_reached">Congratulations! You reached your daily goal.</string>
+    <string name="stop_route_button">Stop Route</string>
 </resources>

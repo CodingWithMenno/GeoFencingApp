@@ -14,6 +14,8 @@ import com.example.geofencing.view_model.GpsObserver;
 
 public class GpsManager implements LocationListener {
 
+    private final float MAX_SPEED = 4;
+
     private GpsObserver observer;
     private LocationManager locationManager;
 
@@ -42,9 +44,11 @@ public class GpsManager implements LocationListener {
             this.previousLocation = location;
         }
 
-        float distanceTraveled = this.previousLocation.distanceTo(location);
+        float distanceTraveled = this.previousLocation.distanceTo(location) / 2;
 
-        this.observer.metersTraveled(distanceTraveled, location);
+        if (location.getSpeed() <= MAX_SPEED) {
+            this.observer.metersTraveled(distanceTraveled, location);
+        }
     }
 
     public Location getLocation() {

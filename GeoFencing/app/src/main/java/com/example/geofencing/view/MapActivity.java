@@ -20,6 +20,7 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 
@@ -53,6 +54,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     private Marker routeMarker;
 
     private ProgressView progressMeterView;
+    private Button stopRouteButton;
 
     private FitHandler fitHandler;
 
@@ -63,6 +65,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         setContentView(R.layout.activity_map);
 
         this.progressMeterView = findViewById(R.id.progress_meter_view);
+        this.stopRouteButton = findViewById(R.id.stop_route_btn);
 
         if (FitHandler.isInstanceNull()) {
             makeOsmMap();
@@ -84,6 +87,12 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     public void routeMakerButtonClicked(View view) {
         Intent achievementsIntent = new Intent(this, RouteMakerActivity.class);
         startActivity(achievementsIntent);
+    }
+
+    public void stopRouteClicked(View view) {
+        if (this.stopRouteButton.getVisibility() == View.VISIBLE) {
+            removeRoute();
+        }
     }
 
     private void makeOsmMap() {
@@ -138,10 +147,18 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
         this.routeMarker.setIcon(getResources().getDrawable(R.drawable.ic_baseline_location));
         this.routeMarker.setAnchor(Marker.ANCHOR_CENTER, Marker.ANCHOR_BOTTOM);
         this.mapView.getOverlayManager().add(this.routeMarker);
+
+        this.stopRouteButton.post(() -> {
+            this.stopRouteButton.setVisibility(View.VISIBLE);
+        });
     }
 
     @Override
     public void removeRoute() {
+        this.stopRouteButton.post(() -> {
+            this.stopRouteButton.setVisibility(View.INVISIBLE);
+        });
+        
         this.mapView.getOverlayManager().remove(this.route);
         this.mapView.getOverlayManager().remove(this.routeMarker);
         this.route = null;
