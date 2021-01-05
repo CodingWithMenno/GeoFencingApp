@@ -11,4 +11,5 @@
     <string name="route_completed">U heeft de bestemming bereikt!</string>
     <string name="day_goal_reached">Gefeliciteerd! U heeft uw dagelijke doel bereikt.</string>
     <string name="stop_route_button">Stop Route</string>
+    <string name="current_points">Jouw statestieken</string>
 </resources>
