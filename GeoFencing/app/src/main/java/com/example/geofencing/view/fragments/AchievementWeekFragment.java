@@ -59,7 +59,7 @@ public class AchievementWeekFragment extends Fragment {
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         int counter = 0;
-        for (int dayCounter = currentDay - 6; dayCounter <= currentDay; dayCounter++) {
+        for (int dayCounter = currentDay - 7; dayCounter < currentDay; dayCounter++) {
 
             float metersOpDeDag = 0.0f;
             try {
