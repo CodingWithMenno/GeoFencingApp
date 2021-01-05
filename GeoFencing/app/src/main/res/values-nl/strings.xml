@@ -12,4 +12,5 @@
     <string name="day_goal_reached">Gefeliciteerd! U heeft uw dagelijke doel bereikt.</string>
     <string name="stop_route_button">Stop Route</string>
     <string name="current_points">Jouw statestieken</string>
+    <string name="total_steps_today">"Totaal aantal stappen vandaag: "</string>
 </resources>

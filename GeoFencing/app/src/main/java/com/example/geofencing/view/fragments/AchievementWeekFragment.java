@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import androidx.fragment.app.Fragment;
 
 import com.example.geofencing.R;
+import com.example.geofencing.view_model.AchievementData;
+import com.example.geofencing.view_model.FitHandler;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -21,6 +24,7 @@ import java.util.ArrayList;
 
 public class AchievementWeekFragment extends Fragment {
 
+    private AchievementData achievementData;
 
     public AchievementWeekFragment() {}
 
@@ -37,6 +41,12 @@ public class AchievementWeekFragment extends Fragment {
         view.setBackgroundColor(Color.WHITE);
 
         BarChart barChart = (BarChart) view.findViewById(R.id.barchartWeek);
+
+        TextView textView = view.findViewById(R.id.total_steps_text);
+
+        achievementData = FitHandler.getInstance().getUserData();
+
+        textView.setText((R.string.total_steps_today + "" + achievementData.getTotalMetersToday()));
 
 
         ArrayList<BarEntry> entries = new ArrayList<>();
