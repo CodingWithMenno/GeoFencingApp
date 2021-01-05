@@ -83,9 +83,10 @@ public class AchievementWeekFragment extends Fragment {
 
         }
 
-        BarData data = new BarData(labels);
+        BarDataSet bardataset = new BarDataSet(entries, getResources().getString(R.string.days));
+        BarData data = new BarData(labels, bardataset);
         barChart.setData(data);
-        barChart.setDescription("WeekAchievements");
+        barChart.setDescription(getResources().getString(R.string.week_achievements));
         barChart.animateY(5000);
 
         return view;

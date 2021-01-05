@@ -19,4 +19,8 @@
     <string name="total_steps_today">"Total steps today: "</string>
     <string name="previous_month">Previous month</string>
     <string name="all_time_best">Your all time best:</string>
+    <string name="days">Day\'s</string>
+    <string name="month_achievements">MonthAchievements</string>
+    <string name="week_achievements">WeekAchievements</string>
+    <string name="all_time_achievement">AllTimeAchievement</string>
 </resources>

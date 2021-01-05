@@ -57,9 +57,9 @@ public class AchievementsActivity extends AppCompatActivity {
     private void setTabLayout() {
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.getTabAt(0).setText("AchievementWeek");
-        tabLayout.getTabAt(1).setText("AchievementMonth");
-        tabLayout.getTabAt(2).setText("AchievementAllTime");
+        tabLayout.getTabAt(0).setText(getResources().getString(R.string.week_achievements));
+        tabLayout.getTabAt(1).setText(getResources().getString(R.string.month_achievements));
+        tabLayout.getTabAt(2).setText(getResources().getString(R.string.all_time_achievement));
     }
 }
 

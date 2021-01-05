@@ -15,4 +15,8 @@
     <string name="total_steps_today">"Aantal stappen vandaag: "</string>
     <string name="previous_month">Vorige maand</string>
     <string name="all_time_best">Jouw beste ooit:</string>
+    <string name="days">Dagen</string>
+    <string name="month_achievements">MaandPrestaties</string>
+    <string name="week_achievements">WeekPrestaties</string>
+    <string name="all_time_achievement">BestePrestatie</string>
 </resources>

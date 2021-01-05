@@ -43,7 +43,7 @@ public class AchievementMonthFragment extends Fragment {
         entries.add(new BarEntry(19f, 5));
         entries.add(new BarEntry(3f, 6));
 
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
+        BarDataSet bardataset = new BarDataSet(entries, getResources().getString(R.string.days));
 
         ArrayList<String> labels = new ArrayList<String>();
         labels.add("Day1");
@@ -57,7 +57,7 @@ public class AchievementMonthFragment extends Fragment {
 
         BarData data = new BarData(labels, bardataset);
         barChart.setData(data);
-        barChart.setDescription("MonthAchievements");
+        barChart.setDescription(getResources().getString(R.string.month_achievements));
         bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         barChart.animateY(5000);
 
