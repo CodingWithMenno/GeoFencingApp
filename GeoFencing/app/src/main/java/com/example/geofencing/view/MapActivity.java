@@ -225,6 +225,11 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     @Override
     protected void onDestroy() {
 
+        if (this.fitHandler != null) {
+            this.fitHandler.updatePersonalRecord();
+            this.fitHandler.saveUserData();
+        }
+
         super.onDestroy();
     }
 }

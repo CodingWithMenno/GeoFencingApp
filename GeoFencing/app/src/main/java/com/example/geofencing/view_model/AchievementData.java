@@ -47,12 +47,17 @@ public class AchievementData implements Serializable {
                 this.totalMetersToday = 0;
             }
             this.dayGoalReached = false;
+            System.out.println("day reset");
         }
 
         if (this.currentMonth != month) {
             this.metersPerDayInMonth.clear();
             this.totalMetersToday = 0;
+            System.out.println("month reset");
         }
+
+        this.currentMonth = month;
+        this.currentDayOfMonth = day;
     }
 
     public void checkForRecord() {
