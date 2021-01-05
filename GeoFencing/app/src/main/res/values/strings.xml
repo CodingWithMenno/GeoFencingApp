@@ -16,5 +16,6 @@
     <string name="day_goal_reached">Congratulations! You reached your daily goal.</string>
     <string name="stop_route_button">Stop Route</string>
     <string name="current_points">Your statistics</string>
-    <string name="total_steps_today">Total steps today:</string>
+    <string name="total_steps_today">"Total steps today: "</string>
+    <string name="previous_month">Previous month</string>
 </resources>

@@ -19,7 +19,11 @@ import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
 
+import java.time.DateTimeException;
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class AchievementWeekFragment extends Fragment {
@@ -45,35 +49,41 @@ public class AchievementWeekFragment extends Fragment {
         TextView textView = view.findViewById(R.id.total_steps_text);
 
         achievementData = FitHandler.getInstance().getUserData();
+        textView.append(achievementData.getTotalMetersToday() + "");
 
-        textView.setText((R.string.total_steps_today + "" + achievementData.getTotalMetersToday()));
 
+        HashMap<Integer, Float> metersPerDayInMonth = achievementData.getMetersPerDayInMonth();
+        int currentDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
 
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(8f, 0));
-        entries.add(new BarEntry(2f, 1));
-        entries.add(new BarEntry(5f, 2));
-        entries.add(new BarEntry(20f, 3));
-        entries.add(new BarEntry(15f, 4));
-        entries.add(new BarEntry(19f, 5));
-        entries.add(new BarEntry(3f, 6));
+        int counter = 0;
+        for (int dayCounter = currentDay - 6; dayCounter <= currentDay; dayCounter++) {
 
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
+            float metersOpDeDag = 0.0f;
+            try {
+                 metersOpDeDag = metersPerDayInMonth.get(dayCounter);
+            } catch (NullPointerException e) {
+            }
+
+            entries.add(new BarEntry(metersOpDeDag, counter));
+            counter++;
+        }
 
         ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Day1");
-        labels.add("Day2");
-        labels.add("Day3");
-        labels.add("Day4");
-        labels.add("Day5");
-        labels.add("Day6");
-        labels.add("Day7");
+        for (int dayBackCounter = currentDay - 6; dayBackCounter <= currentDay; dayBackCounter++) {
+            try {
+                labels.add(LocalDate.of(Calendar.getInstance().get(Calendar.YEAR),
+                        Calendar.getInstance().get(Calendar.MONTH) + 1,
+                        dayBackCounter).toString());
+            } catch (DateTimeException e) {
+                labels.add(getResources().getString(R.string.previous_month));
+            }
 
+        }
 
-        BarData data = new BarData(labels, bardataset);
+        BarData data = new BarData(labels);
         barChart.setData(data);
         barChart.setDescription("WeekAchievements");
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         barChart.animateY(5000);
 
         return view;

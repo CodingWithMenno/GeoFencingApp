@@ -30,36 +30,7 @@ public class AchievementAllTimeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_achievement_alltime, container, false);
         view.setBackgroundColor(Color.WHITE);
-
-        BarChart barChart = (BarChart) view.findViewById(R.id.barchartAlltime);
-
-
-        ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(8f, 0));
-        entries.add(new BarEntry(2f, 1));
-        entries.add(new BarEntry(5f, 2));
-        entries.add(new BarEntry(20f, 3));
-        entries.add(new BarEntry(15f, 4));
-        entries.add(new BarEntry(19f, 5));
-        entries.add(new BarEntry(3f, 6));
-
-        BarDataSet bardataset = new BarDataSet(entries, "Cells");
-
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Day1");
-        labels.add("Day2");
-        labels.add("Day3");
-        labels.add("Day4");
-        labels.add("Day5");
-        labels.add("Day6");
-        labels.add("Day7");
-
-
-        BarData data = new BarData(labels, bardataset);
-        barChart.setData(data);
-        barChart.setDescription("AllTimeAchievements");
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
-        barChart.animateY(5000);
+        
 
         return view;
     }
