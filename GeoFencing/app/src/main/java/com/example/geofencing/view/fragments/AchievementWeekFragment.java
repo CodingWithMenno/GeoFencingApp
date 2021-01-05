@@ -45,6 +45,7 @@ public class AchievementWeekFragment extends Fragment {
         view.setBackgroundColor(Color.WHITE);
 
         BarChart barChart = (BarChart) view.findViewById(R.id.barchartWeek);
+        barChart.clear();
 
         TextView textView = view.findViewById(R.id.total_steps_text);
 
