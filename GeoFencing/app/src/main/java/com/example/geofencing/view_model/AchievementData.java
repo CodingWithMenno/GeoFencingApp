@@ -3,6 +3,7 @@ package com.example.geofencing.view_model;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.AbstractMap;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -19,7 +20,7 @@ public class AchievementData implements Serializable {
     private float totalMetersToday;
     private int currentDayOfMonth;
 
-    private Pair<Long, Float> bestPerformance;
+    private Pair<String, Float> bestPerformance;
 
     public AchievementData() {
         this.dayGoalReached = false;
@@ -27,7 +28,7 @@ public class AchievementData implements Serializable {
         this.currentDayOfMonth = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
         this.currentMonth = Calendar.getInstance().get(Calendar.MONTH);
         this.metersPerDayInMonth = new HashMap<>();
-        this.bestPerformance = Pair.of(System.currentTimeMillis(), this.totalMetersToday);
+        this.bestPerformance = Pair.of(LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).toString(), this.totalMetersToday);
     }
 
     /**
@@ -62,7 +63,7 @@ public class AchievementData implements Serializable {
 
     public void checkForRecord() {
         if (this.totalMetersToday > this.bestPerformance.getValue()) {
-            this.bestPerformance = Pair.of(System.currentTimeMillis(), this.totalMetersToday);
+            this.bestPerformance = Pair.of(LocalDate.of(Calendar.getInstance().get(Calendar.YEAR), Calendar.getInstance().get(Calendar.MONTH) + 1, Calendar.getInstance().get(Calendar.DAY_OF_MONTH)).toString(), this.totalMetersToday);
         }
     }
 
@@ -88,5 +89,9 @@ public class AchievementData implements Serializable {
 
     public void setDayGoalReached(boolean dayGoalReached) {
         this.dayGoalReached = dayGoalReached;
+    }
+
+    public Pair<String, Float> getBestPerformance() {
+        return bestPerformance;
     }
 }

@@ -30,14 +30,25 @@
 
     <TextView
         android:id="@+id/date_all_time"
-        android:text="05-01-2020"
+        android:text=""
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/steps_all_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allTime" />
+
+    <TextView
+        android:id="@+id/steps_all_time"
+        android:text=""
         android:textSize="25dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/allTime" />
+        app:layout_constraintTop_toBottomOf="@+id/date_all_time" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.geofencing.R;
+import com.example.geofencing.view_model.AchievementData;
+import com.example.geofencing.view_model.FitHandler;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -18,6 +21,8 @@ import com.github.mikephil.charting.utils.ColorTemplate;
 import java.util.ArrayList;
 
 public class AchievementAllTimeFragment extends Fragment {
+
+    private AchievementData data;
 
     public AchievementAllTimeFragment() {}
 
@@ -31,7 +36,13 @@ public class AchievementAllTimeFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_achievement_alltime, container, false);
         view.setBackgroundColor(Color.WHITE);
 
+        TextView dateText = view.findViewById(R.id.date_all_time);
+        TextView stepsText = view.findViewById(R.id.steps_all_time);
 
+        this.data = FitHandler.getInstance().getUserData();
+
+        dateText.setText(this.data.getBestPerformance().getLeft() + "");
+        stepsText.setText(this.data.getBestPerformance().getRight().toString());
 
         return view;
     }

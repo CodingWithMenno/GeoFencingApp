@@ -32,7 +32,7 @@ public class AchievementMonthFragment extends Fragment {
         view.setBackgroundColor(Color.WHITE);
 
         BarChart barChart = (BarChart) view.findViewById(R.id.barchartMonth);
-
+        barChart.clear();
 
         ArrayList<BarEntry> entries = new ArrayList<>();
         entries.add(new BarEntry(8f, 0));
