@@ -12,10 +12,32 @@
         android:layout_marginTop="76dp"
         android:text="@string/current_points"
         android:textSize="30sp"
-        android:textColor="@color/black"
+        android:textColor="#606060"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/allTime"
+        android:text="@string/all_time_best"
+        android:textSize="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@id/date_all_time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/total_steps_text" />
+
+    <TextView
+        android:id="@+id/date_all_time"
+        android:text="05-01-2020"
+        android:textSize="25dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/allTime" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

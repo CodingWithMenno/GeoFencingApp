@@ -49,7 +49,8 @@ public class AchievementWeekFragment extends Fragment {
         TextView textView = view.findViewById(R.id.total_steps_text);
 
         achievementData = FitHandler.getInstance().getUserData();
-        textView.append(achievementData.getTotalMetersToday() + "");
+        int totalToday = (int) achievementData.getTotalMetersToday();
+        textView.setText(getResources().getString(R.string.total_steps_today) + "" + totalToday);
 
 
         HashMap<Integer, Float> metersPerDayInMonth = achievementData.getMetersPerDayInMonth();
@@ -69,7 +70,7 @@ public class AchievementWeekFragment extends Fragment {
             counter++;
         }
 
-        ArrayList<String> labels = new ArrayList<String>();
+        ArrayList<String> labels = new ArrayList<>();
         for (int dayBackCounter = currentDay - 6; dayBackCounter <= currentDay; dayBackCounter++) {
             try {
                 labels.add(LocalDate.of(Calendar.getInstance().get(Calendar.YEAR),

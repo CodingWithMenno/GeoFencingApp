@@ -18,4 +18,5 @@
     <string name="current_points">Your statistics</string>
     <string name="total_steps_today">"Total steps today: "</string>
     <string name="previous_month">Previous month</string>
+    <string name="all_time_best">Your all time best:</string>
 </resources>
