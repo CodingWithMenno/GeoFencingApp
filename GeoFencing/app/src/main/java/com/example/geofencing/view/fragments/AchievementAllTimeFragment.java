@@ -38,11 +38,13 @@ public class AchievementAllTimeFragment extends Fragment {
 
         TextView dateText = view.findViewById(R.id.date_all_time);
         TextView stepsText = view.findViewById(R.id.steps_all_time);
+        TextView stepsGoal = view.findViewById(R.id.steps_goal);
 
         this.data = FitHandler.getInstance().getUserData();
 
         dateText.setText(this.data.getBestPerformance().getLeft() + "");
         stepsText.setText(this.data.getBestPerformance().getRight().toString());
+        stepsGoal.setText(getResources().getString(R.string.steps_goal) + AchievementData.METERS_PER_DAY);
 
         return view;
     }
