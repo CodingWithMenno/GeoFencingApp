@@ -72,7 +72,7 @@ public class AchievementWeekFragment extends Fragment {
         }
 
         ArrayList<String> labels = new ArrayList<>();
-        for (int dayBackCounter = currentDay - 6; dayBackCounter <= currentDay; dayBackCounter++) {
+        for (int dayBackCounter = currentDay - 7; dayBackCounter < currentDay; dayBackCounter++) {
             try {
                 labels.add(LocalDate.of(Calendar.getInstance().get(Calendar.YEAR),
                         Calendar.getInstance().get(Calendar.MONTH) + 1,
