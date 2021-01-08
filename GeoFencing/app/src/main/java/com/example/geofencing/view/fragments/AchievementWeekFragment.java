@@ -65,6 +65,7 @@ public class AchievementWeekFragment extends Fragment {
             try {
                  metersOpDeDag = metersPerDayInMonth.get(dayCounter);
             } catch (NullPointerException e) {
+                //Gaat hierin als het de vorige maand was
             }
 
             entries.add(new BarEntry(metersOpDeDag, counter));
@@ -78,6 +79,7 @@ public class AchievementWeekFragment extends Fragment {
                         Calendar.getInstance().get(Calendar.MONTH) + 1,
                         dayBackCounter).toString());
             } catch (DateTimeException e) {
+                //Gaat hierin als het de vorige maand was
                 labels.add(getResources().getString(R.string.previous_month));
             }
 

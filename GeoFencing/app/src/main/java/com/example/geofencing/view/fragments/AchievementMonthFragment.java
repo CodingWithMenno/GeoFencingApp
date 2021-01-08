@@ -5,19 +5,24 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.geofencing.R;
+import com.example.geofencing.view_model.AchievementData;
+import com.example.geofencing.view_model.FitHandler;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.utils.ColorTemplate;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class AchievementMonthFragment extends Fragment {
+
+    private AchievementData achievementData;
 
     public AchievementMonthFragment() {}
 
@@ -34,31 +39,42 @@ public class AchievementMonthFragment extends Fragment {
         BarChart barChart = (BarChart) view.findViewById(R.id.barchartMonth);
         barChart.clear();
 
+        TextView textView = view.findViewById(R.id.total_steps_text_month);
+
+        achievementData = FitHandler.getInstance().getUserData();
+        int totalToday = (int) achievementData.getTotalMetersToday();
+        textView.setText(getResources().getString(R.string.total_steps_today) + "" + totalToday);
+
+
         ArrayList<BarEntry> entries = new ArrayList<>();
-        entries.add(new BarEntry(8f, 0));
-        entries.add(new BarEntry(2f, 1));
-        entries.add(new BarEntry(5f, 2));
-        entries.add(new BarEntry(20f, 3));
-        entries.add(new BarEntry(15f, 4));
-        entries.add(new BarEntry(19f, 5));
-        entries.add(new BarEntry(3f, 6));
+        for (int week = 0; week <= Calendar.getInstance().get(Calendar.WEEK_OF_MONTH); week++) {
 
-        BarDataSet bardataset = new BarDataSet(entries, getResources().getString(R.string.days));
+            int metersPerWeek = 0;
+            for (int day = 1; day <= 7; day++) {
+                try {
+                    metersPerWeek += this.achievementData.getMetersPerDayInMonth().get((week * 7) + day);
+                } catch (NullPointerException e) {
+                }
+            }
 
-        ArrayList<String> labels = new ArrayList<String>();
-        labels.add("Day1");
-        labels.add("Day2");
-        labels.add("Day3");
-        labels.add("Day4");
-        labels.add("Day5");
-        labels.add("Day6");
-        labels.add("Day7");
+            entries.add(new BarEntry(metersPerWeek, week));
+        }
 
 
+        ArrayList<String> labels = new ArrayList<>();
+        for (int week = 0; week <= Calendar.getInstance().get(Calendar.WEEK_OF_MONTH); week++) {
+            if (week == Calendar.getInstance().get(Calendar.WEEK_OF_MONTH)) {
+                labels.add(getResources().getString(R.string.this_week));
+            } else {
+                labels.add("Week " + week);
+            }
+        }
+
+
+        BarDataSet bardataset = new BarDataSet(entries, getResources().getString(R.string.weeks));
         BarData data = new BarData(labels, bardataset);
         barChart.setData(data);
         barChart.setDescription(getResources().getString(R.string.month_achievements));
-        bardataset.setColors(ColorTemplate.COLORFUL_COLORS);
         barChart.animateY(5000);
 
         return view;

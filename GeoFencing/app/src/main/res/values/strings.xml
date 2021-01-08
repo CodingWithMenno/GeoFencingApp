@@ -23,4 +23,6 @@
     <string name="month_achievements">MonthAchievements</string>
     <string name="week_achievements">WeekAchievements</string>
     <string name="all_time_achievement">AllTimeAchievement</string>
+    <string name="weeks">Weeks</string>
+    <string name="this_week">This week</string>
 </resources>

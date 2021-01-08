@@ -19,4 +19,6 @@
     <string name="month_achievements">MaandPrestaties</string>
     <string name="week_achievements">WeekPrestaties</string>
     <string name="all_time_achievement">BestePrestatie</string>
+    <string name="weeks">Weken</string>
+    <string name="this_week">Deze week</string>
 </resources>
