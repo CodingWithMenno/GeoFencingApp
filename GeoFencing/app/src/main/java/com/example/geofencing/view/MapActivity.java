@@ -195,6 +195,10 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
     protected void onStart() {
         super.onStart();
 
+        if (this.fitHandler != null) {
+            this.fitHandler.enableGPS();
+        }
+
         if (this.mapView != null) {
             this.mapView.onResume();
         }
@@ -206,7 +210,10 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
 
     @Override
     protected void onStop() {
-        super.onStop();
+        if (this.fitHandler != null) {
+            this.fitHandler.updatePersonalRecord();
+            this.fitHandler.saveUserData();
+        }
 
         if (this.mapView != null) {
             this.mapView.onPause();
@@ -216,10 +223,7 @@ public class MapActivity extends AppCompatActivity implements RouteObserver {
             this.locationOverlay.onPause();
         }
 
-        if (this.fitHandler != null) {
-            this.fitHandler.updatePersonalRecord();
-            this.fitHandler.saveUserData();
-        }
+        super.onStop();
     }
 
     @Override

@@ -26,4 +26,6 @@
     <string name="weeks">Weeks</string>
     <string name="this_week">This week</string>
     <string name="steps_goal">Steps goal:</string>
+    <string name="gps_off">The map is disabled, turn on GPS to enable it again</string>
+    <string name="gps_on">Map enabled!</string>
 </resources>

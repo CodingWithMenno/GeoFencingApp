@@ -1,6 +1,7 @@
 package com.example.geofencing.view_model;
 
 import android.location.Location;
+import android.location.LocationManager;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.widget.Toast;
@@ -172,6 +173,10 @@ public class FitHandler implements GpsObserver {
         }
 
         route.setPoints(geoPoints);
+    }
+
+    public void enableGPS() {
+        this.gpsManager.onProviderEnabled(LocationManager.GPS_PROVIDER);
     }
 
     @Override
