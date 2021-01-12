@@ -1,5 +1,6 @@
-package com.example.geofencing.repository;
+package com.example.geofencing;
 
+import com.example.geofencing.repository.NominatimAPI;
 import com.example.geofencing.view_model.ApiObserver;
 
 import org.json.JSONArray;
