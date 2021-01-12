@@ -20,9 +20,9 @@
     <string name="previous_month">Previous month</string>
     <string name="all_time_best">Your all time best:</string>
     <string name="days">Day\'s</string>
-    <string name="month_achievements">MonthAchievements</string>
-    <string name="week_achievements">WeekAchievements</string>
-    <string name="all_time_achievement">AllTimeAchievement</string>
+    <string name="month_achievements">Month</string>
+    <string name="week_achievements">Week</string>
+    <string name="all_time_achievement">Best</string>
     <string name="weeks">Weeks</string>
     <string name="this_week">This week</string>
     <string name="steps_goal">Steps goal:</string>
