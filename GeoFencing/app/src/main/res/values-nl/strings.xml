@@ -24,4 +24,6 @@
     <string name="steps_goal">"Stappendoel: "</string>
     <string name="gps_off">De map werkt niet meer, zet GPS aan om deze weer te laten werken</string>
     <string name="gps_on">De map werkt weer!</string>
+    <string name="all_time_date">Datum</string>
+    <string name="all_time_steps">Stappen</string>
 </resources>
