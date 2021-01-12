@@ -15,9 +15,11 @@ public class AchievementData implements Serializable {
     private boolean dayGoalReached;
 
     private HashMap<Integer, Float> metersPerDayInMonth; //Integer is de dag van de maand; Float is het aantal meters van die dag;
+
     private int currentMonth;
 
     private float totalMetersToday;
+
     private int currentDayOfMonth;
 
     private Pair<String, Float> bestPerformance;
@@ -71,12 +73,24 @@ public class AchievementData implements Serializable {
         return metersPerDayInMonth;
     }
 
+    public void setMetersPerDayInMonth(HashMap<Integer, Float> metersPerDayInMonth) {
+        this.metersPerDayInMonth = metersPerDayInMonth;
+    }
+
     public int getCurrentDayOfMonth() {
         return currentDayOfMonth;
     }
 
+    public int getCurrentMonth() {
+        return currentMonth;
+    }
+
     public float getTotalMetersToday() {
         return totalMetersToday;
+    }
+
+    public void setTotalMetersToday(float totalMetersToday) {
+        this.totalMetersToday = totalMetersToday;
     }
 
     public void addTotalMetersToday(float meters) {
@@ -93,5 +107,9 @@ public class AchievementData implements Serializable {
 
     public Pair<String, Float> getBestPerformance() {
         return bestPerformance;
+    }
+
+    public void setBestPerformance(Pair<String, Float> bestPerformance){
+        this.bestPerformance = bestPerformance;
     }
 }
