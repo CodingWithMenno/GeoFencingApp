@@ -1,5 +1,6 @@
 package com.example.geofencing.view;
 
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
@@ -31,5 +32,7 @@ public class RouteMakerActivity extends AppCompatActivity {
         String place = this.placeEdit.getText().toString();
 
         this.fitHandler.findQuickestPathTo(place);
+        
+        finish();
     }
 }
