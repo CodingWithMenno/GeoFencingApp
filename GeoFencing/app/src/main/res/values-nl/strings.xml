@@ -22,4 +22,6 @@
     <string name="weeks">Weken</string>
     <string name="this_week">Deze week</string>
     <string name="steps_goal">"Stappendoel: "</string>
+    <string name="all_time_date">Datum</string>
+    <string name="all_time_steps">Stappen</string>
 </resources>

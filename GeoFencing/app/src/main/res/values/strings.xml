@@ -26,4 +26,6 @@
     <string name="weeks">Weeks</string>
     <string name="this_week">This week</string>
     <string name="steps_goal">Steps goal:</string>
+    <string name="all_time_date">Date</string>
+    <string name="all_time_steps">Steps</string>
 </resources>
