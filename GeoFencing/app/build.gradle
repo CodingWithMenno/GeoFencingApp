@@ -40,6 +40,7 @@ dependencies {
     implementation 'com.shimaami.android:progressview:1.0.1'
     implementation 'androidx.preference:preference:1.1.1'
     implementation 'com.squareup.okhttp3:okhttp:4.9.0'
+    implementation 'com.squareup.okhttp3:mockwebserver:4.9.0'
     implementation 'org.apache.commons:commons-configuration2:2.7'
     implementation 'androidx.viewpager:viewpager:1.0.0'
     implementation 'com.github.PhilJay:MPAndroidChart:v2.2.4'
