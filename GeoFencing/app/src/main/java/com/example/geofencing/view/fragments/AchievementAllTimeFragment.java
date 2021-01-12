@@ -42,8 +42,9 @@ public class AchievementAllTimeFragment extends Fragment {
 
         this.data = FitHandler.getInstance().getUserData();
 
+        int stepsAllTimeBest = this.data.getBestPerformance().getRight().intValue();
         dateText.setText(this.data.getBestPerformance().getLeft() + "");
-        stepsText.setText(this.data.getBestPerformance().getRight().toString());
+        stepsText.setText(stepsAllTimeBest + "");
         stepsGoal.setText(getResources().getString(R.string.steps_goal) + AchievementData.METERS_PER_DAY);
 
         return view;
