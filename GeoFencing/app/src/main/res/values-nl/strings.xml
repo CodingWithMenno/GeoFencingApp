@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">GeoFencing</string>
+    <string name="app_name">GeoFit</string>
     <string name="hello_world">Hallo Ronde Wereld!</string>
     <string name="title_route_maker">Route maken</string>
     <string name="plaats_route_maker">Locatie</string>

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">GeoFencing</string>
+    <string name="app_name">GeoFit</string>
     <string name="title_activity_route_maker">RouteMakerActivity</string>
     <!--
     This string is used for square devices and overridden by hello_world in

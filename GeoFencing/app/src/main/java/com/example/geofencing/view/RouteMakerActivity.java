@@ -32,7 +32,7 @@ public class RouteMakerActivity extends AppCompatActivity {
         String place = this.placeEdit.getText().toString();
 
         this.fitHandler.findQuickestPathTo(place);
-        
+
         finish();
     }
 }
